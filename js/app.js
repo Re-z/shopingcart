@@ -1,7 +1,11 @@
 let cartContent = document.querySelector('#cart-content tbody'),
     allCourses = document.querySelector('#courses-list'),
     clearCartBtn = document.querySelector('#clear-cart'),
+    lsContent = localStorage.getItem('cartItems');
     cartItems = [];
+    if(lsContent) {
+        cartItems = JSON.parse(lsContent);
+    } 
 
 clearCartBtn.addEventListener('click', function(){
     cartItems = [];
@@ -29,7 +33,7 @@ allCourses.addEventListener('click', function(evt){
         //add to DOM
         addToCart(item)
         // add to LS
-        cartItems.push(item);
+        cartItems.unshift(item);
         pushToLS(cartItems)
     }    
 
@@ -38,10 +42,11 @@ allCourses.addEventListener('click', function(evt){
 
 function addToCart(obj) {
     const html = `
-        <tr>
+        <tr class="cart-item">
             <td><img src="${obj.img}" style="max-width: 100px" alt="${obj.name}"></td>
             <td>${obj.name}</td>
             <td>${obj.price}</td>
+            <td><i class="delete-item"></i></td>
         </tr>
     `
     cartContent.insertAdjacentHTML('afterbegin', html)
@@ -51,9 +56,9 @@ function pushToLS(items){
     localStorage.setItem('cartItems', JSON.stringify(items))
 }
 function printFromLS() {
-    let LsContent = localStorage.getItem('cartItems')
-    if(LsContent) {
-        let items = JSON.parse(LsContent);
+    
+    if(lsContent) {
+        let items = JSON.parse(lsContent);
         // console.log(items);
         items.forEach( function(el) {
             addToCart(el)
@@ -63,3 +68,31 @@ function printFromLS() {
 }
 printFromLS();
 //
+
+//delete curent item from DOM
+function deleteItemFromDOM() {
+    cartContent.addEventListener('click', function(evt){
+        if(evt.target.classList.contains('delete-item')){
+           let parent =  evt.target.closest('.cart-item');
+           let arr = Array.from(cartContent.children);
+            
+
+
+           let indexOfDeletedElement = arr.indexOf(parent);
+           console.log(indexOfDeletedElement);
+           
+           cartItems.splice(indexOfDeletedElement, 1);
+           pushToLS(cartItems);
+           
+           console.log(cartItems);
+            parent.remove();
+            
+
+
+        }
+
+
+
+    })
+}
+deleteItemFromDOM();

@@ -65,6 +65,14 @@ ul {
     position: relative;
     margin-bottom: 0;
 }
+.delete-item {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url(../img/delete.svg);
+    background-size: cover;
+    cursor: pointer;
+}
 .hero-content form #search-course {
     height: 50px;
     margin-bottom: 0;

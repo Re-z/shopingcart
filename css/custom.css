@@ -76,6 +76,7 @@ ul {
 .hero-content form #search-course {
     height: 50px;
     margin-bottom: 0;
+    color: black;
 }
 .hero-content form .submit-search-course {
     position: absolute;
